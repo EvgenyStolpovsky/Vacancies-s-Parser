@@ -50,7 +50,7 @@ class SuperJob(Engine):
     def get_request(self, keyword):
         """Парсинг 500 вакансий и создание из них объекта типа list"""
         vacancies = []
-        for page_no in range(5):
+        for page_no in range(1):
             response = requests.get('https://api.superjob.ru/2.0/vacancies/', headers={'X-Api-App-Id': api_key},
                                     params={"keywords": keyword, "count": 100,
                                             "page": page_no}).json()

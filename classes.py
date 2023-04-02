@@ -15,7 +15,7 @@ class Vacancy:
             self.description = description
         self.remote_work = remote_work
         self.salary = salary
-        super().__init__(*args)
+        #super().__init__(*args)
 
     def __repr__(self):
         return f'Наименование вакансии: {self.name}\nРаботодатель: {self.company_name}\nСсылка на вакансию:' \
