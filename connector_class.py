@@ -19,7 +19,7 @@ class Connector:
     __data_file = None
 
     def __init__(self, filename):
-        self.data_file = filename
+        self.__data_file = filename
 
     @property
     def data_file(self):

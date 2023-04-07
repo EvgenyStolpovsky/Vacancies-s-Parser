@@ -1,28 +1,28 @@
 import json
-from engine_classes import SuperJob, HeadHunter
+from engine_classes import SuperJob, HH
 from classes import Vacancy
 
-#Запрос у пользователя ключевого слова
-word_for_search = input('Введите вакансию для поиска: ').strip()
+#Получаем от пользователя ключевое слово для поиска вакансий
+key_word = input('Введите вакансию для поиска: ').strip()
 
-#парсинг 500 вакансий по заданному слову с сайта HeadHunter и сохранение в json файл
-h = HeadHunter()
-response = h.get_request(word_for_search)
-into_file_hh = h.save_vacancies('list.json', response)
+#парсинг 500 вакансий по заданному слову с сайта HeadHunter и сохранение их в файл json
+hh = HH()
+response = hh.get_request(key_word)
+into_file_hh = hh.rec_vacancies('data_list.json', response)
 
-#парсинг 500 вакансий по заданному слову с сайта SuperJob и добавление в list.json
+#парсинг 500 вакансий по заданному слову с сайта SuperJob и добавление их в тот же файл data_list.json
 s = SuperJob()
-response = s.get_request(word_for_search)
-into_file_sj = s.save_vacancies('list.json', response)
+response = s.get_request(key_word)
+into_file_sj = s.rec_vacancies('data_list.json', response)
 
-#вывод меню
+#вывод меню для пользователя
 print('По вашему запросу собрано 500 вакансий с сайта SuperJob и 500 вакансий с сайта HeadHunter.\nВыберите '
       "дальнейшее действие:\nВывести список всех вакансий: нажмите s\nВывести 10 самых высокооплачиваемых вакансий: "
-      "нажмите t\nВывести вакансии с возможностью удаленной работы: нажмите n\nЕсли вы хотите завершить программу: "
-      "нажмите z")
+      "введите top\nВывести вакансии с возможностью удаленной работы: нажмите n\nЕсли вы хотите завершить программу: "
+      "нажмите q")
 
 #чтение общего списка вакансий спарсенных с двух сайтов
-with open('vacancies_list.json', 'r', encoding='utf8') as f:
+with open('data_list.json', 'r', encoding='utf8') as f:
     vacancies_from_json = json.load(f)
     vacancy_subjects = []
     for vac in vacancies_from_json:
@@ -32,13 +32,13 @@ with open('vacancies_list.json', 'r', encoding='utf8') as f:
 #выбор пользователем варианта из меню
 user_choice = input()
 
-while user_choice != 'z':
+while user_choice != 'q':
     if user_choice == 's':
         #вывод списка всех вакансий
         for i in vacancy_subjects:
             print(i)
         user_choice = input('Введите следующую команду ')
-    if user_choice == 't':
+    if user_choice == 'top':
         #вывод 10 самых высокооплачиваемых вакансий
         sorted_vacancies = sorted(vacancy_subjects, reverse=True)[:10]
         for i in sorted_vacancies:
@@ -55,7 +55,7 @@ while user_choice != 'z':
         user_choice = input('Введите следующую команду ')
     else:
         #обработка неверного значения, введенного пользователем
-        print('Вы ввели неверное значение. Пожалуйста, попробуйте еще раз или нажмите z для завершения программы')
+        print('Команда не распознана. Попробуйте еще раз или нажмите q для завершения программы')
         user_choice = input()
 
-print('Программа завершена')
+print('Завершение программы')
